@@ -24,7 +24,7 @@ images.get('/', async (req: Request, res: Response) => {
     if (Number(width) < 1 || !Number.isInteger(Number(width))) {
       return res.send('Provide valid width')
     }
-
+    // code is from stack overflow to get image names only with out .jpg extention
     const img = fs
       .readdirSync(__dirname + '../../../images/full', { withFileTypes: true })
       .filter((item) => !item.isDirectory())
