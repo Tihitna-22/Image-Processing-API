@@ -1,7 +1,8 @@
 import express, { Request, Response } from 'express'
 import fs from 'fs'
 import path from 'path'
-import sharp from 'sharp'
+import processImg from '../../utilities/utilities'
+
 
 const images = express.Router()
 
@@ -25,8 +26,16 @@ images.get('/', async (req: Request, res: Response) => {
       return res.send('Provide valid width')
     }
     // code is from stack overflow to get image names only with out .jpg extention
+    const imgp =  path.join(
+      __dirname,
+      '../../images/full'
+    )
+    const thumbimgp = path.join(
+      __dirname,
+      '../../images/thumb'
+    )
     const img = fs
-      .readdirSync(__dirname + '../../../images/full', { withFileTypes: true })
+      .readdirSync(imgp, { withFileTypes: true })
       .filter((item) => !item.isDirectory())
       .map((item) => item.name)
     const nameOnly = img.map((i) => {
@@ -39,16 +48,8 @@ images.get('/', async (req: Request, res: Response) => {
       return res.status(400).send('filename doesnt exist')
     }
     if (nameOnly.includes(filename)) {
-      ;(async function () {
-        try {
-          await sharp(`.\\src\\images\\full\\${filename}.jpg`)
-            .resize(Number(width), Number(height))
-            .toFile(`.\\src\\images\\thumb\\${filename}${width}x${height}.jpg`)
-          // console.log(img)
-        } catch (error) {
-          console.log(error)
-        }
-      })()
+    
+    ( processImg)(filename, width, height)
 
       setTimeout(() => {
         res.sendFile(
