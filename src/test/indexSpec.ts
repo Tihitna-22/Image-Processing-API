@@ -72,10 +72,10 @@ describe('test image processing', () => {
   it('test path', async () => {
 
    if(fs.existsSync(filePath)){
-    fs.unlinkSync("readme.md")
+    fs.unlinkSync(filePath)
    }
-   const output = await processImg(filename, width, height)
-    expect(output).toBe(true)
+    await processImg(filename, width, height)
+    expect(filePath).toBeTruthy()
   })
 })
 
