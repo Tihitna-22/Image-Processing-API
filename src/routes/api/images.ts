@@ -5,7 +5,7 @@ import processImg from '../../utilities/utilities'
 
 const images = express.Router()
 
-images.get('/', async (req: Request, res: Response) => {
+images.get('/', async (req: Request, res: Response):Promise<unknown> => {
   const filename = (req.query.filename as string) || null
   const height = (req.query.height as unknown as string) || null
   const width = (req.query.width as unknown as string) || null
