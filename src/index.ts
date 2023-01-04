@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { Response } from 'express'
 import images from './routes/api/images'
 import logger from './utilities/logger'
 
@@ -7,7 +7,7 @@ const port = 3000
 
 app.use('/api/images', logger, images)
 
-app.get('/api', logger, (req, res) => {
+app.get('/api', logger, ( res : Response) => {
   res.send('image processing!')
 })
 
