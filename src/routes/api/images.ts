@@ -41,21 +41,37 @@ images.get('/', async (req: Request, res: Response) => {
       return res.status(400).send('filename doesnt exist')
     }
     if (nameOnly.includes(filename)) {
-      await processImg(filename, width, height)
-    const promise = new Promise(() => {
-        res.sendFile(
-          path.join(
-            __dirname,
-            `..\\..\\images\\thumb\\${filename}${width}x${height}.jpg`
+      const checkExist =   path.join(
+        __dirname,
+        `..\\..\\images\\thumb\\${filename}${width}x${height}.jpg`
+      )
+      if (fs.existsSync(checkExist)) {
+        const serve :unknown = new Promise(() => {
+          res.sendFile(
+            path.join(
+              __dirname,
+              `..\\..\\images\\thumb\\${filename}${width}x${height}.jpg`
+            )
           )
-        )
-    });
-    promise.catch((err) => {
-        console.log(err.message); 
-    });
-    return promise
-       }
           
+      })
+      return serve
+      }else{
+        await processImg(filename, width, height)
+        const promise = new Promise(() => {
+            res.sendFile(
+              path.join(
+                __dirname,
+                `..\\..\\images\\thumb\\${filename}${width}x${height}.jpg`
+              )
+            )
+        });
+        promise.catch((err) => {
+            console.log(err.message); 
+        });
+        return promise
+      }
+       }  
   }
 })
 
