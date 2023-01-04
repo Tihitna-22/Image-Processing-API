@@ -7,7 +7,7 @@ const port = 3000
 
 app.use('/api/images', logger, images)
 
-app.get('/api', logger, ( res : Response) => {
+app.get('/api', logger, (res: Response) => {
   res.send('image processing!')
 })
 

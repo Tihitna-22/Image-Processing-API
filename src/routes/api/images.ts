@@ -3,7 +3,6 @@ import fs from 'fs'
 import path from 'path'
 import processImg from '../../utilities/utilities'
 
-
 const images = express.Router()
 
 images.get('/', async (req: Request, res: Response) => {
@@ -26,14 +25,8 @@ images.get('/', async (req: Request, res: Response) => {
       return res.send('Provide valid width')
     }
     // code is from stack overflow to get image names only with out .jpg extention
-    const imgp =  path.join(
-      __dirname,
-      '../../images/full'
-    )
-    const thumbimgp = path.join(
-      __dirname,
-      '../../images/thumb'
-    )
+    const imgp = path.join(__dirname, '../../images/full')
+
     const img = fs
       .readdirSync(imgp, { withFileTypes: true })
       .filter((item) => !item.isDirectory())
@@ -48,8 +41,7 @@ images.get('/', async (req: Request, res: Response) => {
       return res.status(400).send('filename doesnt exist')
     }
     if (nameOnly.includes(filename)) {
-    
-    ( processImg)(filename, width, height)
+      processImg(filename, width, height)
 
       setTimeout(() => {
         res.sendFile(
