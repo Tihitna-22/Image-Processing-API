@@ -1,5 +1,8 @@
 import supertest from 'supertest'
 import app from '../index'
+import processImg from '../utilities/utilities'
+import path from 'path'
+import fs from "fs"
 
 const request = supertest(app)
 describe('Test endpoint responses', () => {
@@ -57,3 +60,22 @@ describe('test response on invalid input', () => {
     expect(response.text).toBe('Provide valid width and height')
   })
 })
+describe('test image processing', () => {
+  const filename = 'santamonica'
+  const width = '100'
+  const height = '200'
+  const filePath = path.join(
+    __dirname,
+    `..\\..\\images\\thumb\\${filename}${width}x${height}.jpg`
+  )
+
+  it('test path', async () => {
+
+   if(fs.existsSync(filePath)){
+    fs.unlinkSync("readme.md")
+   }
+   const output = await processImg(filename, width, height)
+    expect(output).toBe(true)
+  })
+})
+
